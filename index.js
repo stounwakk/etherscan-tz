@@ -1,5 +1,5 @@
 import express from 'express'
-import {statsRouter} from './routers/statsRouter.js'
+import statsRouter from './routers/statsRouter.js'
 const app = express()
 
 app.use(express.json())

@@ -1,8 +1,8 @@
-import {Router} from 'express'
-import statsController from "../controllers/statsController.js";
+import Router from 'express'
+import statsController from '../controllers/statsController.js';
 
-const statsRouter = Router()
+const statsRouter = new Router()
 
 statsRouter.get('/getMaxChanges', statsController.getMaxBalance)
 
-export {statsRouter}
+export default statsRouter

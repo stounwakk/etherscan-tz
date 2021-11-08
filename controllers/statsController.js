@@ -83,9 +83,25 @@ class statsController {
                        }
                })
 
-           const maxAddressBalance = Object.keys(addressBalance).reduce((acc, curr) =>
-               acc.balance ? (addressBalance[curr].balance > acc.balance ? addressBalance[curr] : acc) : addressBalance[curr], {});
-           res.json(maxAddressBalance)
+
+
+           let finalResult
+           const maxAddressBalance = Object.keys(addressBalance).reduce((acc, curr) => {
+                   if (acc.balance) {
+                        if(addressBalance[curr].balance > acc.balance) {
+                            finalResult = curr
+                            return addressBalance[curr]
+                        } else {
+                            return acc
+                        }
+                   } else {
+                       finalResult = curr
+                       return addressBalance[curr]
+                   }
+                }
+               ,{});
+
+           res.json(finalResult)
        } catch (e) {
            console.log(e)
        }

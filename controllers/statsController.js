@@ -83,8 +83,6 @@ class statsController {
                        }
                })
 
-
-
            const maxAddressBalance = Object.keys(addressBalance).reduce((acc, curr) =>
                acc.balance ? (addressBalance[curr].balance > acc.balance ? addressBalance[curr] : acc) : curr, {});
            res.json(maxAddressBalance)

@@ -50,7 +50,6 @@ const getLastBlock = () => {
           new Promise((res) => setTimeout(() => {res(1)}, 2000))
       ])
         .then(res => {
-            res.pop()
             return res[0].data.result
         })
         .catch(e => console.log(e));
@@ -59,7 +58,7 @@ class statsController {
 
    async getMaxBalance(req,res) {
        try{
-           let addressBalanceArr = {}
+           let addressBalance = {}
            let blocksToCallArr = []
            const n = await getLastBlock()
            let counter = n
@@ -72,22 +71,22 @@ class statsController {
                .map(el=> el.transactions)
                .flat(1)
                .forEach(el=>{
-                       if (!addressBalanceArr.hasOwnProperty(el.from)) {
-                           addressBalanceArr[el.from] = {balance: parseInt(el.value, 16)}
+                       if (!addressBalance.hasOwnProperty(el.from)) {
+                           addressBalance[el.from] = {balance: parseInt(el.value, 16)}
                        } else {
-                           addressBalanceArr[el.from].balance += parseInt(el.value, 16)
+                           addressBalance[el.from].balance += parseInt(el.value, 16)
                        }
-                       if (!addressBalanceArr.hasOwnProperty(el.to)) {
-                           addressBalanceArr[el.to] = {balance: parseInt(el.value, 16)}
+                       if (!addressBalance.hasOwnProperty(el.to)) {
+                           addressBalance[el.to] = {balance: parseInt(el.value, 16)}
                        } else {
-                           addressBalanceArr[el.to].balance += parseInt(el.value, 16)
+                           addressBalance[el.to].balance += parseInt(el.value, 16)
                        }
                })
 
 
 
-           const maxAddressBalance = Object.keys(addressBalanceArr).reduce((acc, curr) =>
-               acc.balance ? (addressBalanceArr[curr].balance > acc.balance ? addressBalanceArr[curr] : acc) : curr, {});
+           const maxAddressBalance = Object.keys(addressBalance).reduce((acc, curr) =>
+               acc.balance ? (addressBalance[curr].balance > acc.balance ? addressBalance[curr] : acc) : curr, {});
            res.json(maxAddressBalance)
        } catch (e) {
            console.log(e)
